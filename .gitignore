@@ -10,3 +10,5 @@
 .RData
 .Ruserdata
 
+# file apple
+.DS_Store
