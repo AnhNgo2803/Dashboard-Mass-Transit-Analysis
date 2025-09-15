@@ -1,0 +1,12 @@
+# Quarto build outputs
+*_files/
+*.html
+*.nb.html
+.quarto/
+
+# R
+.Rhistory
+.Rproj.user/
+.RData
+.Ruserdata
+

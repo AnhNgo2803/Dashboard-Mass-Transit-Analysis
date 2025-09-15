@@ -1,0 +1,83 @@
+/*-- scss:defaults --*/
+
+// Set split complementatry palette
+$valuebox-bg-primary: #D43157;
+$valuebox-bg-secondary: #D431A9;
+$valuebox-bg-success: #31D45C;
+$valuebox-bg-info: #31A9D4;
+$valuebox-bg-warning: #D45C31;
+// Set default layout
+
+$navbar-bg: #D4AE31;
+$navbar-fg: black;
+$body-color: black;
+$body-bg: #fff3d4;
+
+/*-- scss:rules --*/
+
+
+// Variables
+
+$web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700&display=swap" !default;
+@if $web-font-path {
+  @import url($web-font-path);
+}
+
+
+// Set Card property
+
+// Adjust color for title and value in valueboxes
+.value-box-title{
+  color: black;
+}
+
+.value-box-value{
+  color: black;
+}
+
+.value-box-showcase{
+  color: black;
+} // adjust the color of icon in value boxes
+
+// set parameter for 4 plots below 
+.card-header{
+  background-color: #D4AE31;
+  font-weight: 500; // semi bold
+}
+
+.card{
+  border-radius: 12px;
+}
+
+.card-color-icon {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+
+  .icon {
+    font-size: 40px;
+    color: #007bff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    &:before {
+      content: "\f207";
+    }
+  }
+
+  .title {
+    font-size: 14px;
+    color: #666;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-style: italic;
+  }
+
+  .body {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+  }
+}
