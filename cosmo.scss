@@ -1,17 +1,17 @@
 /*-- scss:defaults --*/
 
 // Set split complementatry palette
-$valuebox-bg-primary: #D43157;
+$valuebox-bg-primary: #C93939;
 $valuebox-bg-secondary: #D431A9;
-$valuebox-bg-success: #31D45C;
-$valuebox-bg-info: #31A9D4;
-$valuebox-bg-warning: #D45C31;
+$valuebox-bg-success: #39A282;
+$valuebox-bg-info: #369ec4ff;
+$valuebox-bg-warning: #C96B39;
 // Set default layout
 
-$navbar-bg: #D4AE31;
+$navbar-bg: #C27851; // on-top navbar background color
 $navbar-fg: black;
 $body-color: black;
-$body-bg: #fff3d4;
+$body-bg: #fff1eaff; // main background color
 
 /*-- scss:rules --*/
 
@@ -41,7 +41,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@3
 
 // set parameter for 4 plots below 
 .card-header{
-  background-color: #D4AE31;
+  background-color: #DA946E; // card header background color
   font-weight: 500; // semi bold
 }
 

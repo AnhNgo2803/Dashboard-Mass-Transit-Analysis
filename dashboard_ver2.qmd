@@ -34,10 +34,11 @@ names(gocdata)
 orange = "#D45C31"
 red = "#D43157"
 blue= "#31A9D4"
-green= "#31D45C"
+green= "#277455"
 yellow= "#D4AE31"
 pink = "#D431A9"
 boldblue = "#5C31D4"
+background = "#fff1eaff"
 ```
 
 # 🚌 Route Bus
@@ -175,8 +176,8 @@ public_transit_trend <- gocdata$ridership_year %>%
   # custom theme
   theme_classic(base_size = 18) +
   theme(
-    panel.background = element_rect(fill = "#fff3d4", colour = NA),
-    plot.background = element_rect(fill = "#fff3d4", colour = NA),
+    panel.background = element_rect(fill = background, colour = NA),
+    plot.background = element_rect(fill = background, colour = NA),
     #plot.title = element_text(size = 20, hjust = 0.5, face = "bold"),
     #plot.subtitle = element_text(size = 10, hjust = 0.5, face = "italic")
     axis.text = element_text(face="bold") )+
@@ -235,8 +236,8 @@ ggplot(gocdata$df_trans, aes(y = `Ridership.route_bus`, x = `Spending.mass_trans
     axis.text   = element_text(size = 16),
     legend.text = element_text(size = 16),
     legend.title= element_blank(),
-    panel.background = element_rect(fill = "#fff3d4", colour = NA),
-    plot.background = element_rect(fill = "#fff3d4", colour = NA),
+    panel.background = element_rect(fill = background, colour = NA),
+    plot.background = element_rect(fill = background, colour = NA),
     panel.grid.major = element_line(color = "grey70", size = 0.6), # grid chính
     panel.grid.minor = element_line(color = "grey85", size = 0.3))  # grid phụ
 ```
@@ -274,8 +275,8 @@ heatmap_bus <- ggcorrplot(cor_bus,lab = TRUE, type="lower",
         legend.position = "bottom",           # Đặt legend xuống dưới cùng
         legend.key.size = unit(1, "cm"),
                  
-        panel.background = element_rect(fill = "#fff3d4", colour = NA),
-        plot.background = element_rect(fill = "#fff3d4", colour = NA)
+        panel.background = element_rect(fill = background, colour = NA),
+        plot.background = element_rect(fill = background, colour = NA)
         )  # grid phụ
 
 heatmap_bus
@@ -320,8 +321,8 @@ dwplot(x,
     legend.position = "none",
     legend.title= element_blank(),
     
-    panel.background = element_rect(fill = "#fff3d4", colour = NA),
-    plot.background = element_rect(fill = "#fff3d4", colour = NA),
+    panel.background = element_rect(fill = background, colour = NA),
+    plot.background = element_rect(fill = background, colour = NA),
     panel.grid.major = element_line(color = "grey70", size = 0.6), # grid chính
     panel.grid.minor = element_line(color = "grey85", size = 0.3))  # grid phụ
 ```
@@ -481,8 +482,8 @@ ggplot(gocdata$df_trans, aes(y = `Ridership.urban_rail`, x = `Spending.mass_tran
     axis.text   = element_text(size = 16),
     legend.text = element_text(size = 16),
     legend.title= element_blank(),
-    panel.background = element_rect(fill = "#fff3d4", colour = NA),
-    plot.background = element_rect(fill = "#fff3d4", colour = NA),
+    panel.background = element_rect(fill = background, colour = NA),
+    plot.background = element_rect(fill = background, colour = NA),
     panel.grid.major = element_line(color = "grey70", size = 0.6), # grid chính
     panel.grid.minor = element_line(color = "grey85", size = 0.3))  # grid phụ
 ```
@@ -520,8 +521,8 @@ heatmap_rail <- ggcorrplot(cor_rail, lab = TRUE, type="lower",
         legend.position = "bottom",           # Đặt legend xuống dưới cùng
         legend.key.size = unit(1, "cm"),
                  
-        panel.background = element_rect(fill = "#fff3d4", colour = NA),
-        plot.background = element_rect(fill = "#fff3d4", colour = NA)
+        panel.background = element_rect(fill = background, colour = NA),
+        plot.background = element_rect(fill = background, colour = NA)
         )  # grid phụ
 heatmap_rail
 ```
@@ -565,8 +566,8 @@ dwplot(y,
     legend.position = "none",
     legend.title= element_blank(),
     
-    panel.background = element_rect(fill = "#fff3d4", colour = NA),
-    plot.background = element_rect(fill = "#fff3d4", colour = NA),
+    panel.background = element_rect(fill = background, colour = NA),
+    plot.background = element_rect(fill = background, colour = NA),
     panel.grid.major = element_line(color = "grey70", size = 0.6), # grid chính
     panel.grid.minor = element_line(color = "grey85", size = 0.3))  # grid phụ
 ```
@@ -725,8 +726,8 @@ ggplot(gocdata$df_trans, aes(y = `Ridership.other_modes`, x = `Spending.mass_tra
     axis.text   = element_text(size = 16),
     legend.text = element_text(size = 16),
     legend.title= element_blank(),
-    panel.background = element_rect(fill = "#fff3d4", colour = NA),
-    plot.background = element_rect(fill = "#fff3d4", colour = NA),
+    panel.background = element_rect(fill = background, colour = NA),
+    plot.background = element_rect(fill = background, colour = NA),
     panel.grid.major = element_line(color = "grey70", size = 0.6), # grid chính
     panel.grid.minor = element_line(color = "grey85", size = 0.3))  # grid phụ
 ```
@@ -764,8 +765,8 @@ heatmap_other <- ggcorrplot(cor_other,lab = TRUE,
         legend.position = "bottom",           # Đặt legend xuống dưới cùng
         legend.key.size = unit(1, "cm"),
                  
-        panel.background = element_rect(fill = "#fff3d4", colour = NA),
-        plot.background = element_rect(fill = "#fff3d4", colour = NA)
+        panel.background = element_rect(fill = background, colour = NA),
+        plot.background = element_rect(fill = background, colour = NA)
         )  # grid phụ
 
 heatmap_other
@@ -810,8 +811,8 @@ dwplot(z,
     legend.position = "none",
     legend.title= element_blank(),
     
-    panel.background = element_rect(fill = "#fff3d4", colour = NA),
-    plot.background = element_rect(fill = "#fff3d4", colour = NA),
+    panel.background = element_rect(fill = background, colour = NA),
+    plot.background = element_rect(fill = background, colour = NA),
     panel.grid.major = element_line(color = "grey70", size = 0.6), # grid chính
     panel.grid.minor = element_line(color = "grey85", size = 0.3))  # grid phụ
 ```
