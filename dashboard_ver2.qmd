@@ -1,6 +1,6 @@
 ---
-title: "US Mass Transit"
-author: Ngo Le Duy Anh
+title: "US Public Transit: Ridership Drivers and the COVID-19 Impact (2005-2022)"
+author: "Ngo Le Duy Anh"
 format: 
   dashboard:
     theme: 
@@ -31,14 +31,16 @@ names(gocdata)
 ```{r}
 #| label: set customed color
 #| include: false
-orange = "#D45C31"
-red = "#D43157"
-blue= "#31A9D4"
-green= "#277455"
+orange = "#C96B39"
+red = "#C93939"
+blue= "#369ec4ff"
+green= "#39A282"
+
 yellow= "#D4AE31"
 pink = "#D431A9"
-boldblue = "#5C31D4"
-background = "#fff1eaff"
+boldblue = "#006E00"
+
+background = "#fff1eaff" # don't change
 ```
 
 # 🚌 Route Bus
@@ -64,7 +66,7 @@ formatted_peak_bus
 
 ```{r}
 #| content: valuebox
-#| title: "Pre-COVID peak (trips)"
+#| title: "Peak Ridership (Pre-COVID)"
 list(
   icon = "graph-up-arrow",
   color = "success",
@@ -91,7 +93,7 @@ formatted_min_bus
 
 ```{r}
 #| content: valuebox
-#| title: "The COVID trough (trips)"
+#| title: "Lowest Point (COVID Trough)"
 list(
   icon = "graph-down-arrow",
   color = "warning",
@@ -112,7 +114,7 @@ percent_bus_drop
 
 ```{r}
 #| content: valuebox
-#| title: "Drop (%)"
+#| title: "Peak-to-Trough Drop (%)"
 
 list(
   icon = "chevron-double-down",
@@ -140,7 +142,7 @@ formatted_bus_recovery
 
 ```{r}
 #| content: valuebox
-#| title: "Recovery Status (2022)"
+#| title: "2022 Recovery Status"
 
 list(
   icon = "bandaid",
@@ -156,6 +158,7 @@ list(
 #### Row - line plot
 
 ```{r}
+#| label: Line plot
 #| fig-align: center
 #| fig-asp: 0.33
 #| fig-dpi: 300
@@ -169,7 +172,7 @@ public_transit_trend <- gocdata$ridership_year %>%
   # set specification of chart
   ggplot(aes(y= ridership_value, x=year, colour=ridership_category, shape = ridership_category))+
   geom_line(linewidth=1.5)+
-  geom_point(size=5)+
+  geom_point(size=4)+
   scale_x_continuous(breaks= seq(2005,2022,by=1))+
   scale_y_continuous(labels = number_format(big.mark = ",", decimal.mark = ".", scale = 1e-6, suffix = "M"))+
   
@@ -180,7 +183,10 @@ public_transit_trend <- gocdata$ridership_year %>%
     plot.background = element_rect(fill = background, colour = NA),
     #plot.title = element_text(size = 20, hjust = 0.5, face = "bold"),
     #plot.subtitle = element_text(size = 10, hjust = 0.5, face = "italic")
-    axis.text = element_text(face="bold") )+
+    axis.text = element_text(face="bold"),
+    #panel.grid.minor = element_line(color = "grey85", size = 0.3),
+    panel.grid.major = element_line(color = "grey85", size = 0.6) # grid chính
+    )+
   
   # custom line of chart
   scale_color_manual(values= c(ridership_other.modes = "#D43157",
@@ -217,7 +223,7 @@ public_transit_trend
 #| fig-dpi: 300
 #| fig-height: 4
 #| fig-width: 12
-#| title: "Bus Ridership & Spending correlation by Period"
+#| title: "Bus Ridership & Infrastructure Investment correlation by Period"
 ggplot(gocdata$df_trans, aes(y = `Ridership.route_bus`, x = `Spending.mass_transit`, colour = period))+
   geom_point(size = 3)+
   scale_color_manual(values = c("before COVID" = blue,"after COVID" = red))+
@@ -248,6 +254,10 @@ ggplot(gocdata$df_trans, aes(y = `Ridership.route_bus`, x = `Spending.mass_trans
 
 ##### Column - Heatmap - BUS {width = 50%}
 
+:::{.card title = "Correlation heatmap"}
+
+*Bus ridership is counter-cyclical – it increases when GDP declines and unemployment rises.*
+
 ```{r}
 #| label: correlation heatmap bus
 #| fig-dpi: 300
@@ -257,13 +267,14 @@ ggplot(gocdata$df_trans, aes(y = `Ridership.route_bus`, x = `Spending.mass_trans
 #| fig-width: 12
 #| out-width: 100%
 #| out-height: 100%
-#| title: "Correlation heatmap"
+# title: "Correlation heatmap"
+# fig-cap: "Green = Negative, Red = Positive | Closer to ±1 = Stronger correlation"
 
 # set heat map of bus
 cor_bus <- cor(gocdata$df_quar_bus[ ,-1])
 heatmap_bus <- ggcorrplot(cor_bus,lab = TRUE, type="lower", 
                           #title = "Correlation heatmap (Route Bus)",
-                          colors = c(boldblue, "white", orange),
+                          colors = c(boldblue, "white", red),
                           lab_size = 9)+
   theme(
         #plot.title = element_text(size = 28, face = "bold", hjust = 2, vjust = -1), 
@@ -277,12 +288,18 @@ heatmap_bus <- ggcorrplot(cor_bus,lab = TRUE, type="lower",
                  
         panel.background = element_rect(fill = background, colour = NA),
         plot.background = element_rect(fill = background, colour = NA)
-        )  # grid phụ
-
+        )   # grid phụ 
+  #labs(subtitle = "Green = Negative, Red = Positive | Closer to ±1 = Stronger correlation")
 heatmap_bus
 ```
 
+:::
+
 ##### Column - coefficient plot - BUS {width="50%"}
+
+:::{.card title= "Influential Factors on Ridership (Pre-COVID)"}
+
+*The growth of real GDP exerts the strongest impact on bus ridership.*
 
 ```{r}
 #| label: coefficient plot
@@ -291,7 +308,7 @@ heatmap_bus
 #| fig-height: 10
 #| fig-width: 12
 #| out-width: 100%
-#| title: "Influential Factors on Ridership (Pre-COVID)"
+# title: "Influential Factors on Ridership (Pre-COVID)"
 
 # Scale variables for BUS
 scaled_bus_data <- gocdata$df_quar_bus[ ,-1] %>%
@@ -306,7 +323,7 @@ dwplot(x,
   whisker_args = list(size = 2.5, alpha = 1),   # dày CI
   dodge_size   = 0.6                            # tách các model cho đỡ dính
   ) +
-  scale_color_manual(values = orange, guide = "none") +
+  scale_color_manual(values = red, guide = "none") +
   geom_vline(xintercept = 0, linetype = "dashed", color = boldblue,linewidth = 1.4) +
   labs(
     x = "Standardized Coefficient (Impact Size)",
@@ -315,8 +332,8 @@ dwplot(x,
   theme_minimal(base_size = 30) +
   theme(
     #plot.title  = element_text(size = 18, face = "bold", hjust = 0.5),
-    axis.title  = element_text(size = 28, face = "bold"),
-    axis.text   = element_text(size = 24),
+    axis.title  = element_text(size = 30, face = "bold"),
+    axis.text   = element_text(size = 28, face='bold'),
     #legend.text = element_text(size = 24),
     legend.position = "none",
     legend.title= element_blank(),
@@ -326,6 +343,8 @@ dwplot(x,
     panel.grid.major = element_line(color = "grey70", size = 0.6), # grid chính
     panel.grid.minor = element_line(color = "grey85", size = 0.3))  # grid phụ
 ```
+
+:::
 
 # 🚈 Urban Rail
 
@@ -350,7 +369,7 @@ formatted_peak_rail
 
 ```{r}
 #| content: valuebox
-#| title: "Pre-COVID peak (trips)"
+#| title: "Peak Ridership (Pre-COVID)"
 list(
   icon = "graph-up-arrow",
   color = "success",
@@ -377,7 +396,7 @@ formatted_min_rail
 
 ```{r}
 #| content: valuebox
-#| title: "The COVID trough (trips)"
+#| title: "Lowest Point (COVID Trough)"
 list(
   icon = "graph-down-arrow",
   color = "warning",
@@ -398,7 +417,7 @@ percent_rail_drop
 
 ```{r}
 #| content: valuebox
-#| title: "Drop (%)"
+#| title: "Peak-to-Trough Drop (%)"
 
 list(
   icon = "chevron-double-down",
@@ -426,7 +445,7 @@ formatted_rail_recovery
 
 ```{r}
 #| content: valuebox
-#| title: "Recovery Status (2022)"
+#| title: "2022 Recovery Status"
 
 list(
   icon = "bandaid",
@@ -463,7 +482,7 @@ public_transit_trend
 #| fig-dpi: 300
 #| fig-height: 4
 #| fig-width: 12
-#| title: "Rail Ridership & Spending correlation by Period"
+#| title: "Rail Ridership & Infrastructure Investment correlation by Period"
 ggplot(gocdata$df_trans, aes(y = `Ridership.urban_rail`, x = `Spending.mass_transit`, colour = period))+
   geom_point(size = 3)+
   scale_color_manual(values = c("before COVID" = blue,"after COVID" = red))+
@@ -492,7 +511,10 @@ ggplot(gocdata$df_trans, aes(y = `Ridership.urban_rail`, x = `Spending.mass_tran
 
 #### Row - For setting only {height="100%"}
 
-##### Column - Heatmap - RAIL
+##### Column - Heatmap - RAIL {width="50%"}
+
+::: {.card title="Correlation heatmap"} 
+*Infrastructure investment (spending_transit) and economic growth (real_gdp) show the strongest positive correlations with Urban Rail ridership*
 
 ```{r}
 #| label: heatmap rail
@@ -503,13 +525,13 @@ ggplot(gocdata$df_trans, aes(y = `Ridership.urban_rail`, x = `Spending.mass_tran
 #| fig-width: 12
 #| out-width: 100%
 #| out-height: 100%
-#| title: "Correlation heatmap"
+# title: "Correlation heatmap"
 
 # set heatmap of rail
 cor_rail <- cor(gocdata$df_quar_rail[ ,-1])
 heatmap_rail <- ggcorrplot(cor_rail, lab = TRUE, type="lower",
                            #title = "Correlation heatmap (Urban Rail)",
-                           colors = c(boldblue, "white", orange),
+                           colors = c(boldblue, "white", red),
                           lab_size = 9)+
   theme(
         #plot.title = element_text(size = 28, face = "bold", hjust = 2, vjust = -1), 
@@ -526,8 +548,13 @@ heatmap_rail <- ggcorrplot(cor_rail, lab = TRUE, type="lower",
         )  # grid phụ
 heatmap_rail
 ```
+:::
 
-##### Column - coefficient plot - RAIL
+##### Column - coefficient plot - BUS {width="50%"}
+
+:::{.card title= "Influential Factors on Ridership (Pre-COVID)"}
+
+*Economic growth (Real GDP) is by far the strongest positive driver of Urban Rail ridership.*
 
 ```{r}
 #| label: rail coeff plot
@@ -536,7 +563,7 @@ heatmap_rail
 #| fig-height: 10
 #| fig-width: 12
 #| out-width: 100%
-#| title: "Influential Factors on Ridership (Pre-COVID)"
+# title: "Influential Factors on Ridership (Pre-COVID)"
 
 # Scale variables for RAIL
 scaled_rail_data <- gocdata$df_quar_rail[ ,c(-1,-3,-4,-7)] %>%
@@ -551,8 +578,8 @@ dwplot(y,
   whisker_args = list(size = 2.5, alpha = 1),   # dày CI
   dodge_size   = 0.6                            # tách các model cho đỡ dính
   ) +
-  scale_color_manual(values = blue, guide = "none") +
-  geom_vline(xintercept = 0, linetype = "dashed", color = red,linewidth = 1.4) +
+  scale_color_manual(values = red, guide = "none") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = green,linewidth = 1.4) +
   labs(
     x = "Standardized Coefficient (Impact Size)",
     y = ""
@@ -560,8 +587,8 @@ dwplot(y,
   theme_minimal(base_size = 30) +
   theme(
     #plot.title  = element_text(size = 18, face = "bold", hjust = 0.5),
-    axis.title  = element_text(size = 28, face = "bold"),
-    axis.text   = element_text(size = 24),
+    axis.title  = element_text(size = 30, face = "bold"),
+    axis.text   = element_text(size = 28, face='bold'),
     #legend.text = element_text(size = 24),
     legend.position = "none",
     legend.title= element_blank(),
@@ -571,6 +598,7 @@ dwplot(y,
     panel.grid.major = element_line(color = "grey70", size = 0.6), # grid chính
     panel.grid.minor = element_line(color = "grey85", size = 0.3))  # grid phụ
 ```
+:::
 
 # 🛥️ Other Modes
 
@@ -595,7 +623,7 @@ formatted_peak_other
 
 ```{r}
 #| content: valuebox
-#| title: "Pre-COVID peak (trips)"
+#| title: "Peak Ridership (Pre-COVID)"
 list(
   icon = "graph-up-arrow",
   color = "success",
@@ -622,7 +650,7 @@ formatted_min_other
 
 ```{r}
 #| content: valuebox
-#| title: "The COVID trough (trips)"
+#| title: "Lowest Point (COVID Trough)"
 list(
   icon = "graph-down-arrow",
   color = "warning",
@@ -643,7 +671,7 @@ percent_other_drop
 
 ```{r}
 #| content: valuebox
-#| title: "Drop (%)"
+#| title: "Peak-to-Trough Drop (%)"
 
 list(
   icon = "chevron-double-down",
@@ -671,7 +699,7 @@ formatted_other_recovery
 
 ```{r}
 #| content: valuebox
-#| title: "Recovery Status (2022)"
+#| title: "2022 Recovery Status"
 
 list(
   icon = "bandaid",
@@ -701,12 +729,13 @@ public_transit_trend
 #### Row - point plot - Other MODES
 
 ```{r}
+#| label: Scatter plot Other modes
 #| fig-width: 12
 #| fig-height: 4
 #| fig-dpi: 300
 #| fig-asp: 0.33
 #| fig-align: center
-#| title: "Other modes Ridership & Spending correlation by Period"
+#| title: "Other modes Ridership & Infrastructure Investment correlation by Period"
 
 ggplot(gocdata$df_trans, aes(y = `Ridership.other_modes`, x = `Spending.mass_transit`, colour = period))+
   geom_point(size = 3)+
@@ -736,9 +765,14 @@ ggplot(gocdata$df_trans, aes(y = `Ridership.other_modes`, x = `Spending.mass_tra
 
 #### Row - For setting only {height="100%"}
 
-##### Column - Heatmap - Other MODES
+##### Column - Heatmap - BUS {width = 50%}
+
+:::{.card title = "Correlation heatmap"}
+
+*"Other modes" ridership is strongly and positively correlated with infrastructure investment (spending_transit) and economic growth (real_gdp)*
 
 ```{r}
+#| label: Heatmap other mode
 #| fig-dpi: 300
 #| fig-asp: 1
 #| fig-bg: "#fff3d4"
@@ -746,14 +780,14 @@ ggplot(gocdata$df_trans, aes(y = `Ridership.other_modes`, x = `Spending.mass_tra
 #| fig-width: 12
 #| out-width: 100%
 #| out-height: 100%
-#| title: "Correlation heatmap"
+# title: "Correlation heatmap"
 
 # set heatmap of other
 cor_other <- cor(gocdata$df_quar_other[ ,-1])
 heatmap_other <- ggcorrplot(cor_other,lab = TRUE, 
                             type="lower",
                             #title = "Correlation heatmap (Other modes)",
-                            colors = c(boldblue, "white", orange),
+                            colors = c(boldblue, "white", red),
                           lab_size = 9)+
   theme(
         #plot.title = element_text(size = 28, face = "bold", hjust = 2, vjust = -1), 
@@ -771,8 +805,13 @@ heatmap_other <- ggcorrplot(cor_other,lab = TRUE,
 
 heatmap_other
 ```
+::: 
 
-##### Column - coefficient plot - Other MODES
+##### Column - coefficient plot - Other MODES {width = 50%}
+
+:::{.card title = "Influential Factors on Ridership (Pre-COVID)"}
+
+*"Other Modes" ridership is driven by a mix of factors. While economic growth and gas prices provide a strong positive push, rising diesel prices act as the most significant deterrent*
 
 ```{r}
 #| label: coef plot of Other
@@ -781,7 +820,7 @@ heatmap_other
 #| fig-height: 10
 #| fig-width: 12
 #| out-width: 100%
-#| title: Influential Factors on Ridership (Pre-COVID)
+# title: Influential Factors on Ridership (Pre-COVID)
 
 # Scale variables for OTHER
 scaled_other_data <- gocdata$df_quar_other[ ,-1] %>%
@@ -805,8 +844,8 @@ dwplot(z,
   theme_minimal(base_size = 30) +
   theme(
     #plot.title  = element_text(size = 18, face = "bold", hjust = 0.5),
-    axis.title  = element_text(size = 28, face = "bold"),
-    axis.text   = element_text(size = 24),
+    axis.title  = element_text(size = 30, face = "bold"),
+    axis.text   = element_text(size = 28, face='bold'),
     #legend.text = element_text(size = 24),
     legend.position = "none",
     legend.title= element_blank(),
@@ -816,3 +855,4 @@ dwplot(z,
     panel.grid.major = element_line(color = "grey70", size = 0.6), # grid chính
     panel.grid.minor = element_line(color = "grey85", size = 0.3))  # grid phụ
 ```
+:::
